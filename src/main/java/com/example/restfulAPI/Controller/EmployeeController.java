@@ -1,19 +1,33 @@
 package com.example.restfulAPI.Controller;
 
 import com.example.restfulAPI.Service.EmployeeManager;
+import com.example.restfulAPI.model.Employee;
 import com.example.restfulAPI.model.Employees;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
+@RequestMapping("/employees")
 public class EmployeeController {
 
-    @Autowired
-    private EmployeeManager employeeManager;
+    private final EmployeeManager employeeManager;
 
-    @GetMapping("/employees")
-    public Employees getEmployees() {
+    @Autowired
+    public EmployeeController(EmployeeManager employeeManager) {
+        this.employeeManager = employeeManager;
+    }
+
+    @GetMapping
+    public Employees getAllEmployees() {
         return employeeManager.getAllEmployees();
+    }
+
+    @PostMapping
+    public Employee addEmployee(@RequestBody Employee employee) {
+        employeeManager.getAllEmployees().getEmployeeList().add(employee);
+        return employee;
     }
 }
