@@ -3,11 +3,10 @@ package com.example.restfulAPI.Controller;
 import com.example.restfulAPI.Service.EmployeeManager;
 import com.example.restfulAPI.model.Employee;
 import com.example.restfulAPI.model.Employees;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @RestController
 @RequestMapping("/employees")
@@ -26,8 +25,9 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public Employee addEmployee(@RequestBody Employee employee) {
-        employeeManager.getAllEmployees().getEmployeeList().add(employee);
+    @ResponseStatus(HttpStatus.CREATED)
+    public Employee addEmployee(@Valid @RequestBody Employee employee) {
+        employeeManager.addEmployee(employee);
         return employee;
     }
 }
